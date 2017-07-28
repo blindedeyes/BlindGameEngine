@@ -45,9 +45,9 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	
     // Main message loop:
 	bool running = true;
-	while (true)
+	while (running)
 	{
-		while (PeekMessage(&msg, winhandle, 0, 0, PM_REMOVE))//GetMessage(&msg, nullptr, 0, 0))
+		while (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE))//GetMessage(&msg, nullptr, 0, 0))
 		{
 			if (!TranslateAccelerator(msg.hwnd, hAccelTable, &msg))
 			{
@@ -88,7 +88,8 @@ ATOM MyRegisterClass(HINSTANCE hInstance)
     wcex.hIcon          = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_BLINDGAMEENGINE));
     wcex.hCursor        = LoadCursor(nullptr, IDC_ARROW);
     wcex.hbrBackground  = (HBRUSH)(COLOR_WINDOW+1);
-    wcex.lpszMenuName   = MAKEINTRESOURCEW(IDC_BLINDGAMEENGINE);
+	//wcex.lpszMenuName   = MAKEINTRESOURCEW(IDC_BLINDGAMEENGINE);
+	wcex.lpszMenuName	= NULL;
     wcex.lpszClassName  = szWindowClass;
     wcex.hIconSm        = LoadIcon(wcex.hInstance, MAKEINTRESOURCE(IDI_SMALL));
 
@@ -109,7 +110,7 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 {
    hInst = hInstance; // Store instance handle in our global variable
 
-   HWND hWnd = CreateWindowW(szWindowClass, szTitle, WS_OVERLAPPEDWINDOW ^ WS_THICKFRAME ^ WS_SYSMENU ^ WS_MAXIMIZEBOX,
+   HWND hWnd = CreateWindowW(szWindowClass, szTitle, WS_OVERLAPPEDWINDOW ^ WS_THICKFRAME ^ WS_MAXIMIZEBOX,
       CW_USEDEFAULT, 0, CW_USEDEFAULT, 0, nullptr, nullptr, hInstance, nullptr);
 
    if (!hWnd)

@@ -12,6 +12,13 @@ struct Vertex
 	DirectX::XMFLOAT4 normal;
 	DirectX::XMFLOAT4 uv;
 };
+//Costant Buffer
+struct WorldViewProj
+{
+	DirectX::XMFLOAT4X4 view;
+	DirectX::XMFLOAT4X4 proj;
+	DirectX::XMFLOAT4X4 worldMatrix;
+};
 
 //Blind game engine renderer Class
 //Initialized the DirectX pipeline
@@ -39,6 +46,8 @@ class BlindRenderer
 
 	ID3D11Buffer * m_TriangleBuffer;
 
+	WorldViewProj m_WVPData;
+	ID3D11Buffer * m_WVPConstantBuffer;
 	unsigned int m_winWidth, m_winHeight;
 
 	void InitBackBuffer();
@@ -48,7 +57,7 @@ class BlindRenderer
 	void InitViewProjMatrix();
 
 	void BuildTriangle();
-	
+
 	void SetupInputLayout();
 
 public:
@@ -56,7 +65,8 @@ public:
 	~BlindRenderer();
 
 	void Render();
-
+	DirectX::XMFLOAT4X4 GetCamera();
+	void SetCamera(DirectX::XMFLOAT4X4);
 	//Setup the rendering Device, Swap chain, and context
 	void InitRenderer();
 };

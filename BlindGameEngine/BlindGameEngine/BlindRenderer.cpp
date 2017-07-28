@@ -90,16 +90,16 @@ void BlindRenderer::InitShaders()
 void BlindRenderer::InitViewProjMatrix()
 {
 	//Aspect ratio for the window area, used in perspective matrix
-	float AspectRatio = (float)m_winWidth / m_winHeight;
+	float AspectRatio = (float)m_winHeight/m_winWidth;
 	//Calculate field of view angle
 	float FoV = 70.0f * DirectX::XM_PI / 180.0f;
 	//Create the perspective Matrix
-	DirectX::XMMATRIX prespectiveMatrix = DirectX::XMMatrixPerspectiveLH(FoV, AspectRatio, 0.01f, 1.0f);
+	DirectX::XMMATRIX prespectiveMatrix = DirectX::XMMatrixPerspectiveFovLH(FoV, AspectRatio, 0.01f, 100.0f);
 	//Copy the matrix into the float4x4 for storage.
 	DirectX::XMStoreFloat4x4(&m_ProjMatrix, prespectiveMatrix);
-
+	DirectX::XMStoreFloat4x4(&m_WVPData.proj, DirectX::XMMatrixTranspose(prespectiveMatrix));
 	//Where the camera is located
-	static const DirectX::XMVECTORF32 eye = { 0.0f, 3.0f, -2.5f, 0.0f };
+	static const DirectX::XMVECTORF32 eye = { 0.5f, 1.0f, -2.0f, 0.0f };
 	//What the camera is looking at
 	static const DirectX::XMVECTORF32 at = { 0,0,0,0 };
 	//World UP vector
@@ -107,8 +107,9 @@ void BlindRenderer::InitViewProjMatrix()
 
 	//Build a view matrix for the camera
 	DirectX::XMMATRIX viewMat = DirectX::XMMatrixLookAtLH(eye, at, up);
-	DirectX::XMStoreFloat4x4(&m_ViewMatrix, viewMat);
-
+	DirectX::XMStoreFloat4x4(&m_ViewMatrix, DirectX::XMMatrixTranspose(viewMat));
+	//DirectX::XMStoreFloat4x4(&m_WVPData.view, DirectX::XMMatrixTranspose(viewMat));
+	
 	//Inverse the view matrix to get the camera matrix
 	viewMat = DirectX::XMMatrixInverse(NULL, viewMat);
 	//Store the camera matrix in a float4x4
@@ -116,14 +117,13 @@ void BlindRenderer::InitViewProjMatrix()
 
 }
 
-
 void BlindRenderer::BuildTriangle()
 {
 	//Temporary function to draw a triangle to the screen.
 	Vertex verts[3];
 	ZeroMemory(verts, sizeof(verts));
 	//Top
-	verts[0].position = DirectX::XMFLOAT4(0, .5, 0, 1);
+	verts[0].position = DirectX::XMFLOAT4(0, 1, 0, 1);
 
 	//right
 	verts[1].position = DirectX::XMFLOAT4(.5, 0, 0, 1);
@@ -158,21 +158,50 @@ BlindRenderer::BlindRenderer(HWND winHandle)
 BlindRenderer::~BlindRenderer()
 {
 	//TODO Clean up all Direct X memory.
+	//Clear the state of the context, so it isn't referencing the buffers/shaders/whatever
+	m_Context->ClearState();
+	//Do this in the opposite order of creation preferably, could cause issues if done otherwise.
+	m_DefaultPipeline.m_RasterizerState->Release();
+	m_DefaultPipeline.m_InputLayout->Release();
+
+	m_TriangleBuffer->Release();
+	m_WVPConstantBuffer->Release();
+
+	m_DefaultPipeline.m_VertexShader->Release();
+	m_DefaultPipeline.m_PixelShader->Release();
+
+	m_DefaultPipeline.m_RenderTargetView->Release();
+	m_DefaultPipeline.m_BackBuffer->Release();
+	m_DefaultPipeline.m_DepthStencilView->Release();
+	m_DefaultPipeline.m_DepthStencilBuffer->Release();
+
+	m_Context->Release();
+	m_SwapChain->Release();
+	m_Device->Release();
 }
 
 void BlindRenderer::Render()
 {
 	//This function renders a triangle.
 	//Color to clear render target to
+
+
 	float clearcolor[4] = { 0.0f, 0.0f, 1.0f, 0.0f };
 	//Clear out the depth stencil, and the render target
 	m_Context->ClearDepthStencilView(m_DefaultPipeline.m_DepthStencilView, D3D11_CLEAR_DEPTH, 1.0f, 0);
 	m_Context->ClearRenderTargetView(m_DefaultPipeline.m_RenderTargetView, clearcolor);
 	m_Context->RSSetViewports(1,&m_Viewport);
+	
+	//setup constant buffer with data.
+	m_WVPData.view = m_ViewMatrix;
+	//DirectX::XMStoreFloat4x4(&m_WVPData.view, DirectX::XMMatrixTranspose(DirectX::XMMatrixInverse(nullptr, DirectX::XMLoadFloat4x4(&m_Camera))));
+	m_Context->UpdateSubresource(m_WVPConstantBuffer, 0, NULL, &m_WVPData, 0, 0);
+	
 	//set rasterizer state
 	m_Context->RSSetState(m_DefaultPipeline.m_RasterizerState);
 	//Set vertex shader
 	m_Context->VSSetShader(m_DefaultPipeline.m_VertexShader, 0, 0);
+	m_Context->VSSetConstantBuffers(0, 1, &m_WVPConstantBuffer);
 	//set pixel shader
 	m_Context->PSSetShader(m_DefaultPipeline.m_PixelShader, 0, 0);
 	//Set input layout
@@ -188,6 +217,26 @@ void BlindRenderer::Render()
 	m_Context->Draw(3, 0);
 	//Present the finished screen onto the window
 	m_SwapChain->Present(0, 0);
+}
+
+DirectX::XMFLOAT4X4 BlindRenderer::GetCamera()
+{
+	return m_Camera;
+}
+
+void BlindRenderer::SetCamera(DirectX::XMFLOAT4X4 cam)
+{
+	//Set camera
+	m_Camera = cam;
+	//Set View Matrix
+	
+	//Inverse the matrix before setting it because the view matrix 
+	//is the opposite of the camera matrix
+	DirectX::XMMATRIX mat = DirectX::XMLoadFloat4x4(&m_Camera);
+	
+	mat = DirectX::XMMatrixTranspose(DirectX::XMMatrixInverse(NULL, mat));
+	DirectX::XMStoreFloat4x4(&m_ViewMatrix, mat);
+
 }
 
 void BlindRenderer::InitRenderer()
@@ -245,4 +294,11 @@ void BlindRenderer::InitRenderer()
 	InitViewProjMatrix();
 	SetupInputLayout();
 	BuildTriangle();
+
+	//Setup the constant buffer
+	CD3D11_BUFFER_DESC constantBufferDesc(sizeof(WorldViewProj), D3D11_BIND_CONSTANT_BUFFER);
+	m_Device->CreateBuffer(&constantBufferDesc, NULL, &m_WVPConstantBuffer);
+
+	DirectX::XMStoreFloat4x4(&m_WVPData.worldMatrix, DirectX::XMMatrixTranspose( DirectX::XMMatrixIdentity()));
+
 }
