@@ -90,7 +90,7 @@ void BlindRenderer::InitShaders()
 void BlindRenderer::InitViewProjMatrix()
 {
 	//Aspect ratio for the window area, used in perspective matrix
-	float AspectRatio = (float)m_winHeight/m_winWidth;
+	float AspectRatio = (float)m_winWidth/m_winHeight;
 	//Calculate field of view angle
 	float FoV = 70.0f * DirectX::XM_PI / 180.0f;
 	//Create the perspective Matrix
@@ -117,24 +117,14 @@ void BlindRenderer::InitViewProjMatrix()
 
 }
 
-void BlindRenderer::BuildTriangle()
+//DEPRECTED
+void BlindRenderer::BuildVertexBuffer(Mesh * m)
 {
-	//Temporary function to draw a triangle to the screen.
-	Vertex verts[3];
-	ZeroMemory(verts, sizeof(verts));
-	//Top
-	verts[0].position = DirectX::XMFLOAT4(0, 1, 0, 1);
-
-	//right
-	verts[1].position = DirectX::XMFLOAT4(.5, 0, 0, 1);
-
-	//left
-	verts[2].position = DirectX::XMFLOAT4(-.5, 0, 0, 1);
-
-	CD3D11_BUFFER_DESC desc(sizeof(Vertex) * 3, D3D11_BIND_VERTEX_BUFFER, D3D11_USAGE_IMMUTABLE, 0);
+	
+	CD3D11_BUFFER_DESC desc(sizeof(Vertex) * m->Verts.size() , D3D11_BIND_VERTEX_BUFFER, D3D11_USAGE_IMMUTABLE, 0);
 	D3D11_SUBRESOURCE_DATA data;
-	data.pSysMem = &verts;
-	m_Device->CreateBuffer(&desc, &data, &m_TriangleBuffer);
+	data.pSysMem = m->Verts.data();
+	m_Device->CreateBuffer(&desc, &data, &m->m_VertBuffer);
 }
 
 void BlindRenderer::SetupInputLayout()
@@ -164,7 +154,7 @@ BlindRenderer::~BlindRenderer()
 	m_DefaultPipeline.m_RasterizerState->Release();
 	m_DefaultPipeline.m_InputLayout->Release();
 
-	m_TriangleBuffer->Release();
+	//m_TriangleBuffer->Release();
 	m_WVPConstantBuffer->Release();
 
 	m_DefaultPipeline.m_VertexShader->Release();
@@ -180,43 +170,44 @@ BlindRenderer::~BlindRenderer()
 	m_Device->Release();
 }
 
+//DEPRECTED
 void BlindRenderer::Render()
 {
 	//This function renders a triangle.
 	//Color to clear render target to
 
 
-	float clearcolor[4] = { 0.0f, 0.0f, 1.0f, 0.0f };
-	//Clear out the depth stencil, and the render target
-	m_Context->ClearDepthStencilView(m_DefaultPipeline.m_DepthStencilView, D3D11_CLEAR_DEPTH, 1.0f, 0);
-	m_Context->ClearRenderTargetView(m_DefaultPipeline.m_RenderTargetView, clearcolor);
-	m_Context->RSSetViewports(1,&m_Viewport);
-	
-	//setup constant buffer with data.
-	m_WVPData.view = m_ViewMatrix;
-	//DirectX::XMStoreFloat4x4(&m_WVPData.view, DirectX::XMMatrixTranspose(DirectX::XMMatrixInverse(nullptr, DirectX::XMLoadFloat4x4(&m_Camera))));
-	m_Context->UpdateSubresource(m_WVPConstantBuffer, 0, NULL, &m_WVPData, 0, 0);
-	
-	//set rasterizer state
-	m_Context->RSSetState(m_DefaultPipeline.m_RasterizerState);
-	//Set vertex shader
-	m_Context->VSSetShader(m_DefaultPipeline.m_VertexShader, 0, 0);
-	m_Context->VSSetConstantBuffers(0, 1, &m_WVPConstantBuffer);
-	//set pixel shader
-	m_Context->PSSetShader(m_DefaultPipeline.m_PixelShader, 0, 0);
-	//Set input layout
-	m_Context->IASetInputLayout(m_DefaultPipeline.m_InputLayout);
-	//Set topology
-	m_Context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-	//How large in memory each vertex is for drawing
-	unsigned int stride = sizeof(Vertex);
-	//Offsets between verts
-	unsigned int offset = 0;
-	m_Context->IASetVertexBuffers(0,1, &m_TriangleBuffer, &stride, &offset);
-	//Draw the first 3 verts in the vertex buffer
-	m_Context->Draw(3, 0);
-	//Present the finished screen onto the window
-	m_SwapChain->Present(0, 0);
+	//float clearcolor[4] = { 0.0f, 0.0f, 1.0f, 0.0f };
+	////Clear out the depth stencil, and the render target
+	//m_Context->ClearDepthStencilView(m_DefaultPipeline.m_DepthStencilView, D3D11_CLEAR_DEPTH, 1.0f, 0);
+	//m_Context->ClearRenderTargetView(m_DefaultPipeline.m_RenderTargetView, clearcolor);
+	//m_Context->RSSetViewports(1,&m_Viewport);
+	//
+	////setup constant buffer with data.
+	//m_WVPData.view = m_ViewMatrix;
+	////DirectX::XMStoreFloat4x4(&m_WVPData.view, DirectX::XMMatrixTranspose(DirectX::XMMatrixInverse(nullptr, DirectX::XMLoadFloat4x4(&m_Camera))));
+	//m_Context->UpdateSubresource(m_WVPConstantBuffer, 0, NULL, &m_WVPData, 0, 0);
+	//
+	////set rasterizer state
+	//m_Context->RSSetState(m_DefaultPipeline.m_RasterizerState);
+	////Set vertex shader
+	//m_Context->VSSetShader(m_DefaultPipeline.m_VertexShader, 0, 0);
+	//m_Context->VSSetConstantBuffers(0, 1, &m_WVPConstantBuffer);
+	////set pixel shader
+	//m_Context->PSSetShader(m_DefaultPipeline.m_PixelShader, 0, 0);
+	////Set input layout
+	//m_Context->IASetInputLayout(m_DefaultPipeline.m_InputLayout);
+	////Set topology
+	//m_Context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+	////How large in memory each vertex is for drawing
+	//unsigned int stride = sizeof(Vertex);
+	////Offsets between verts
+	//unsigned int offset = 0;
+	//m_Context->IASetVertexBuffers(0,1, &m_TriangleBuffer, &stride, &offset);
+	////Draw the first 3 verts in the vertex buffer
+	//m_Context->Draw(3, 0);
+	////Present the finished screen onto the window
+	//m_SwapChain->Present(0, 0);
 }
 
 DirectX::XMFLOAT4X4 BlindRenderer::GetCamera()
@@ -293,7 +284,6 @@ void BlindRenderer::InitRenderer()
 	InitShaders();
 	InitViewProjMatrix();
 	SetupInputLayout();
-	BuildTriangle();
 
 	//Setup the constant buffer
 	CD3D11_BUFFER_DESC constantBufferDesc(sizeof(WorldViewProj), D3D11_BIND_CONSTANT_BUFFER);
@@ -301,4 +291,40 @@ void BlindRenderer::InitRenderer()
 
 	DirectX::XMStoreFloat4x4(&m_WVPData.worldMatrix, DirectX::XMMatrixTranspose( DirectX::XMMatrixIdentity()));
 
+}
+
+void BlindRenderer::Render(Mesh * m)
+{
+
+	float clearcolor[4] = { 0.0f, 0.0f, 1.0f, 0.0f };
+	//Clear out the depth stencil, and the render target
+	m_Context->ClearDepthStencilView(m_DefaultPipeline.m_DepthStencilView, D3D11_CLEAR_DEPTH, 1.0f, 0);
+	m_Context->ClearRenderTargetView(m_DefaultPipeline.m_RenderTargetView, clearcolor);
+	m_Context->RSSetViewports(1, &m_Viewport);
+
+	//setup constant buffer with data.
+	m_WVPData.view = m_ViewMatrix;
+	//DirectX::XMStoreFloat4x4(&m_WVPData.view, DirectX::XMMatrixTranspose(DirectX::XMMatrixInverse(nullptr, DirectX::XMLoadFloat4x4(&m_Camera))));
+	m_Context->UpdateSubresource(m_WVPConstantBuffer, 0, NULL, &m_WVPData, 0, 0);
+
+	//set rasterizer state
+	m_Context->RSSetState(m_DefaultPipeline.m_RasterizerState);
+	//Set vertex shader
+	m_Context->VSSetShader(m_DefaultPipeline.m_VertexShader, 0, 0);
+	m_Context->VSSetConstantBuffers(0, 1, &m_WVPConstantBuffer);
+	//set pixel shader
+	m_Context->PSSetShader(m_DefaultPipeline.m_PixelShader, 0, 0);
+	//Set input layout
+	m_Context->IASetInputLayout(m_DefaultPipeline.m_InputLayout);
+	//Set topology
+	m_Context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+	//How large in memory each vertex is for drawing
+	unsigned int stride = sizeof(Vertex);
+	//Offsets between verts
+	unsigned int offset = 0;
+	m_Context->IASetVertexBuffers(0, 1, &m->m_VertBuffer, &stride, &offset);
+	//Draw the first 3 verts in the vertex buffer
+	m_Context->Draw(m->Verts.size(), 0);
+	//Present the finished screen onto the window
+	m_SwapChain->Present(0, 0);
 }

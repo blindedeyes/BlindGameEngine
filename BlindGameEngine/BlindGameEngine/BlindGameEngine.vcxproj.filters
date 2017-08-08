@@ -19,6 +19,9 @@
     <Filter Include="Renderer\Shaders">
       <UniqueIdentifier>{86cba7a1-b8a5-4445-8aa7-1a8a814b41a2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="DataManager">
+      <UniqueIdentifier>{504a3388-267f-4709-bd5f-ec151bee0b94}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -45,6 +48,12 @@
     <ClInclude Include="Pipeline.h">
       <Filter>Renderer</Filter>
     </ClInclude>
+    <ClInclude Include="DataManager.h">
+      <Filter>DataManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Mesh.h">
+      <Filter>DataManager</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -58,6 +67,9 @@
     </ClCompile>
     <ClCompile Include="BlindRenderer.cpp">
       <Filter>Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="DataManager.cpp">
+      <Filter>DataManager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

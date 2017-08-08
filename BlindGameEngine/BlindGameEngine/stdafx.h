@@ -22,7 +22,10 @@
 //Direct X Math library
 #include <DirectXMath.h>
 
+#include <d3d11.h>
 
 // TODO: reference additional headers your program requires here
+#include "Mesh.h"
+#include "DataManager.h"
 #include "BlindRenderer.h"
 #include "BlindEngine.h"

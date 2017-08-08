@@ -15,6 +15,7 @@ cbuffer WorldViewProj
 struct PixelShaderData
 {
 	float4 position : SV_POSITION;
+	float4 uv : UV;
 };
 
 PixelShaderData main(Vertex input)
@@ -26,7 +27,7 @@ PixelShaderData main(Vertex input)
 	result.position = mul(result.position, worldMatrix);
 	result.position = mul(result.position, view);
 	result.position = mul(result.position, proj);
-
+	result.uv = input.uv;
 
 	return result;
 }

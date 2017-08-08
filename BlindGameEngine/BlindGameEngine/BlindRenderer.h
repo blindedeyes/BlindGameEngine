@@ -1,17 +1,10 @@
 #pragma once
 //Direct X 11 Header file.
-#include <d3d11.h>
 #include "Pipeline.h"
 #include "TrivialVS.h"
 #include "TrivialPS.h"
 
-//Vertex layout
-struct Vertex
-{
-	DirectX::XMFLOAT4 position;
-	DirectX::XMFLOAT4 normal;
-	DirectX::XMFLOAT4 uv;
-};
+
 //Costant Buffer
 struct WorldViewProj
 {
@@ -44,7 +37,7 @@ class BlindRenderer
 	DirectX::XMFLOAT4X4 m_ViewMatrix;
 	DirectX::XMFLOAT4X4 m_ProjMatrix;
 
-	ID3D11Buffer * m_TriangleBuffer;
+	
 
 	WorldViewProj m_WVPData;
 	ID3D11Buffer * m_WVPConstantBuffer;
@@ -56,7 +49,6 @@ class BlindRenderer
 	void InitShaders();
 	void InitViewProjMatrix();
 
-	void BuildTriangle();
 
 	void SetupInputLayout();
 
@@ -64,10 +56,13 @@ public:
 	BlindRenderer(HWND winHandle);
 	~BlindRenderer();
 
-	void Render();
 	DirectX::XMFLOAT4X4 GetCamera();
 	void SetCamera(DirectX::XMFLOAT4X4);
 	//Setup the rendering Device, Swap chain, and context
 	void InitRenderer();
+	void Render(Mesh* m);
+	void Render();
+
+	void BuildVertexBuffer(Mesh * m);
 };
 
