@@ -1,5 +1,8 @@
+# On Hold until I have more time.
+
 # BlindGameEngine
 Open source project created by Cody Ngo while streaming on Twitch.tv
+
 
 # Specifics
 This project is a game engine written in Direct X 11, using windows forms.
