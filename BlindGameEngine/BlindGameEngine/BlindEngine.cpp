@@ -10,6 +10,7 @@ BlindEngine::BlindEngine(HWND winHandle)
 	DataManager dataman;
 	temp = dataman.LoadMesh("Cube.fbx");
 	m_RenderManager->BuildVertexBuffer(temp);
+	m_RenderManager->BuildIndexBuffer(temp);
 	GetCursorPos(&mLastPoint);
 }
 
@@ -59,8 +60,8 @@ void BlindEngine::DebugUpdateCamera()
 	{
 		//If holding right click, then lets rotate the camera.
 		float rotSpd = 5.0f;
-		float deltaX = cPoint.x - mLastPoint.x, 
-			deltaY = cPoint.y - mLastPoint.y;
+		float deltaX = (float)(cPoint.x - mLastPoint.x),
+			deltaY = (float)(cPoint.y - mLastPoint.y);
 		//extract camera pos, and store it for later.
 		DirectX::XMFLOAT4 pos = DirectX::XMFLOAT4(cam._41, cam._42, cam._43, cam._44);
 		//Remove pos.
@@ -89,9 +90,11 @@ void BlindEngine::Run()
 {
 	std::chrono::time_point<std::chrono::system_clock> start;
 	start = std::chrono::system_clock::now();
-
+	//Clear screen
 	DebugUpdateCamera();
 
+	m_RenderManager->ClearPipelineViews(NULL);
 	m_RenderManager->Render(temp);
+	m_RenderManager->Present();
 	DeltaTime = (float)(std::chrono::system_clock::now() - start).count() / 1e7f;
 }

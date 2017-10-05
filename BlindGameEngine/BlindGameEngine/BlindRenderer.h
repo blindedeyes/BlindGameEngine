@@ -61,8 +61,13 @@ public:
 	//Setup the rendering Device, Swap chain, and context
 	void InitRenderer();
 	void Render(Mesh* m);
+	
+	void ClearPipelineViews(Pipeline* p);
 	void Render();
+	void Present();
 
 	void BuildVertexBuffer(Mesh * m);
+	void BuildIndexBuffer(Mesh * m);
+
 };
 

@@ -1,6 +1,8 @@
 #include "stdafx.h"
 #include "DataManager.h"
 
+//Recursive function that loads a mesh from a node.
+//If a mesh was within said node, it stops loading.
 Mesh * DataManager::LoadMeshFromNode(FbxNode * node)
 {
 	FbxMesh * fMesh = node->GetMesh();
@@ -15,15 +17,15 @@ Mesh * DataManager::LoadMeshFromNode(FbxNode * node)
 		for (unsigned int i = 0; i < vertCnt; ++i)
 		{
 			FbxVector4 fVert = fMesh->GetControlPointAt(i);
-			tempVerts[i].position.x = fVert[0];
-			tempVerts[i].position.y = fVert[1];
-			tempVerts[i].position.z = fVert[2];
-			tempVerts[i].position.w = 1;
+			tempVerts[i].position.x = (float)fVert[0];
+			tempVerts[i].position.y = (float)fVert[1];
+			tempVerts[i].position.z = (float)fVert[2];
+			tempVerts[i].position.w = 1.0f;
 		}
 
 		//Get Poly info
 		unsigned int polyCnt = fMesh->GetPolygonCount();
-
+		tMesh->Verts.reserve(polyCnt);
 		FbxStringList uvsetlist;
 		fMesh->GetUVSetNames(uvsetlist);
 		//For each poly
@@ -36,21 +38,59 @@ Mesh * DataManager::LoadMeshFromNode(FbxNode * node)
 				bool unmapped;
 				fMesh->GetPolygonVertexUV(i, vId, uvsetlist[0], UV, unmapped);
 				int indx = fMesh->GetPolygonVertex(i, vId);
-
+				FbxVector4 norm;
+				fMesh->GetPolygonVertexNormal(i, vId, norm);
 				Vertex vert;
 				vert.position = tempVerts[indx].position;
-				vert.uv.x = UV[0];
-				vert.uv.y = UV[1];
+
+				vert.uv.x = (float)UV[0];
+				vert.uv.y = (float)UV[1];
 				vert.uv.z = 0;
 				vert.uv.w = 1;
-				tMesh->Verts.push_back(vert);
+
+				vert.normal.x = (float)norm[0];
+				vert.normal.y = (float)norm[1];
+				vert.normal.z = (float)norm[2];
+				vert.normal.w = (float)norm[3];
+
+				//=====================================================================
+				//Unique check
+				//O(n) solution, could possibly work on speeding this up, 
+				//but at this point, this is the best solution, and it only
+				//affects load times, not gameplay.
+				bool unique = true;
+				unsigned int tempindx = 0;
+				for (; tempindx < tMesh->Verts.size(); tempindx++)
+				{
+					if (vert == tMesh->Verts[tempindx])
+					{
+						unique = false;
+						break;
+					}
+				}
+
+				if (unique)
+				{
+					tMesh->Indices.push_back(tMesh->Verts.size());
+					tMesh->Verts.push_back(vert);
+				}
+				else
+				{
+					tMesh->Indices.push_back(tempindx);
+				}
+				//=====================================================================
 			}
 		}
+		tMesh->Verts.shrink_to_fit();
+		tMesh->Indices.shrink_to_fit();
+		//cleanup a leaky array
+		delete tempVerts;
+
 		return tMesh;
 	}
 	else
 	{
-		for (unsigned int i = 0; i < node->GetChildCount(); ++i)
+		for (int i = 0; i < node->GetChildCount(); ++i)
 		{
 			tMesh = LoadMeshFromNode(node->GetChild(i));
 			if (tMesh)

@@ -1,7 +1,5 @@
-# On Hold until I have more time.
-
 # BlindGameEngine
-Open source project created by Cody Ngo while streaming on Twitch.tv
+Open source project created by Cody Ngo
 
 
 # Specifics
@@ -9,7 +7,7 @@ This project is a game engine written in Direct X 11, using windows forms.
 
 # Planned Features
 - Rendering :
-    - Dynamic Lighting fpr Directional, spot, and point lights 
+    - Dynamic Lighting for Directional, spot, and point lights 
     - Shadows for Directional lights/point lights
 - Data Management -> not load objects more than once in memory
 - Memory Manager -> Heap like memory Management so as not to call new
@@ -20,13 +18,13 @@ This project is a game engine written in Direct X 11, using windows forms.
 - I plan on making a demo 3D Game with the engine to showcase it's basic features
 
 
-# Planned Lesson/Work Time Line
-- Basic rendering of objects
-  - Ongoing: Explaining rendering concepts.
-- 3D model File Explained
+# Planned Work Time Line
+- Basic rendering of objects :heavy_check_mark: 
+- Loading a Model :heavy_check_mark: 
+- Rendering a Model :heavy_check_mark: 
+- 3D model File Explained 
+- Creating Objects/Object Manager
 - Custom Binary Data Files/Formats
-- Loading a Model
-- Rendering a Model/Creating Objects
 - Designing a data manager
 - Writing Shaders
 - Loading Textures

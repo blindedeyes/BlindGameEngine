@@ -47,6 +47,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	bool running = true;
 	while (running)
 	{
+		//need to add a timer to messages
 		while (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE))//GetMessage(&msg, nullptr, 0, 0))
 		{
 			if (!TranslateAccelerator(msg.hwnd, hAccelTable, &msg))

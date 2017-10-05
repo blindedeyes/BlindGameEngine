@@ -13,14 +13,20 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Renderer">
+    <Filter Include="Source Files\Renderer">
       <UniqueIdentifier>{c536746d-9611-4b43-bd7d-69bfd84af431}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Renderer\Shaders">
+    <Filter Include="Source Files\Renderer\Shaders">
       <UniqueIdentifier>{86cba7a1-b8a5-4445-8aa7-1a8a814b41a2}</UniqueIdentifier>
     </Filter>
-    <Filter Include="DataManager">
+    <Filter Include="Source Files\DataManager">
       <UniqueIdentifier>{504a3388-267f-4709-bd5f-ec151bee0b94}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\DataManager">
+      <UniqueIdentifier>{28194b17-dc9b-4385-9e5a-012434772ccf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Renderer">
+      <UniqueIdentifier>{e50badb7-72f3-4c2a-a7cd-fa19bf30a7d7}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -42,17 +48,17 @@
     <ClInclude Include="BlindEngine.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="BlindRenderer.h">
-      <Filter>Renderer</Filter>
-    </ClInclude>
     <ClInclude Include="Pipeline.h">
-      <Filter>Renderer</Filter>
+      <Filter>Header Files\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="BlindRenderer.h">
+      <Filter>Header Files\Renderer</Filter>
     </ClInclude>
     <ClInclude Include="DataManager.h">
-      <Filter>DataManager</Filter>
+      <Filter>Header Files\DataManager</Filter>
     </ClInclude>
     <ClInclude Include="Mesh.h">
-      <Filter>DataManager</Filter>
+      <Filter>Header Files\DataManager</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -66,10 +72,10 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="BlindRenderer.cpp">
-      <Filter>Renderer</Filter>
+      <Filter>Source Files\Renderer</Filter>
     </ClCompile>
     <ClCompile Include="DataManager.cpp">
-      <Filter>DataManager</Filter>
+      <Filter>Source Files\DataManager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -87,10 +93,10 @@
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="TrivialVS.hlsl">
-      <Filter>Renderer\Shaders</Filter>
+      <Filter>Source Files\Renderer\Shaders</Filter>
     </FxCompile>
     <FxCompile Include="TrivialPS.hlsl">
-      <Filter>Renderer\Shaders</Filter>
+      <Filter>Source Files\Renderer\Shaders</Filter>
     </FxCompile>
   </ItemGroup>
 </Project>
