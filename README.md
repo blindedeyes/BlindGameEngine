@@ -22,7 +22,6 @@ This project is a game engine written in Direct X 11, using windows forms.
 - Basic rendering of objects :heavy_check_mark: 
 - Loading a Model :heavy_check_mark: 
 - Rendering a Model :heavy_check_mark: 
-- 3D model File Explained 
 - Creating Objects/Object Manager
 - Custom Binary Data Files/Formats
 - Designing a data manager
