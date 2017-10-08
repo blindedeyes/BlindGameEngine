@@ -40,3 +40,11 @@ float Time::SetTimeScale()
 {
 	float m_timeScale;
 }
+
+Time * Time::GetInstance()
+{
+	static Time* t;
+	if (!t)
+		t = new Time();
+	return t;
+}

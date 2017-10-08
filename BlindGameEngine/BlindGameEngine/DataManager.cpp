@@ -83,6 +83,7 @@ Mesh * DataManager::LoadMeshFromNode(FbxNode * node)
 		}
 		tMesh->Verts.shrink_to_fit();
 		tMesh->Indices.shrink_to_fit();
+
 		//cleanup a leaky array
 		delete tempVerts;
 

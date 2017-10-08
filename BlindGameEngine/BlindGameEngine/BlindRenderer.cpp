@@ -189,46 +189,6 @@ void BlindRenderer::ClearPipelineViews(Pipeline * p)
 
 }
 
-//DEPRECTED
-void BlindRenderer::Render()
-{
-	//This function renders a triangle.
-	//Color to clear render target to
-
-
-	//float clearcolor[4] = { 0.0f, 0.0f, 1.0f, 0.0f };
-	////Clear out the depth stencil, and the render target
-	//m_Context->ClearDepthStencilView(m_DefaultPipeline.m_DepthStencilView, D3D11_CLEAR_DEPTH, 1.0f, 0);
-	//m_Context->ClearRenderTargetView(m_DefaultPipeline.m_RenderTargetView, clearcolor);
-	//m_Context->RSSetViewports(1,&m_Viewport);
-	//
-	////setup constant buffer with data.
-	//m_WVPData.view = m_ViewMatrix;
-	////DirectX::XMStoreFloat4x4(&m_WVPData.view, DirectX::XMMatrixTranspose(DirectX::XMMatrixInverse(nullptr, DirectX::XMLoadFloat4x4(&m_Camera))));
-	//m_Context->UpdateSubresource(m_WVPConstantBuffer, 0, NULL, &m_WVPData, 0, 0);
-	//
-	////set rasterizer state
-	//m_Context->RSSetState(m_DefaultPipeline.m_RasterizerState);
-	////Set vertex shader
-	//m_Context->VSSetShader(m_DefaultPipeline.m_VertexShader, 0, 0);
-	//m_Context->VSSetConstantBuffers(0, 1, &m_WVPConstantBuffer);
-	////set pixel shader
-	//m_Context->PSSetShader(m_DefaultPipeline.m_PixelShader, 0, 0);
-	////Set input layout
-	//m_Context->IASetInputLayout(m_DefaultPipeline.m_InputLayout);
-	////Set topology
-	//m_Context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-	////How large in memory each vertex is for drawing
-	//unsigned int stride = sizeof(Vertex);
-	////Offsets between verts
-	//unsigned int offset = 0;
-	//m_Context->IASetVertexBuffers(0,1, &m_TriangleBuffer, &stride, &offset);
-	////Draw the first 3 verts in the vertex buffer
-	//m_Context->Draw(3, 0);
-	////Present the finished screen onto the window
-	//m_SwapChain->Present(0, 0);
-}
-
 void BlindRenderer::Present()
 {
 	m_SwapChain->Present(1, 0);
@@ -279,6 +239,8 @@ void BlindRenderer::InitRenderer()
 
 	//DEBUG 
 	//Setup the device, swap chain, and context.
+	//need to fill this out more later.
+	//TODO Fill out nondebug create device and swapchain
 	D3D11CreateDeviceAndSwapChain(NULL, //which hardward device to use, defaults to first in list.
 		D3D_DRIVER_TYPE_HARDWARE, //
 		NULL,

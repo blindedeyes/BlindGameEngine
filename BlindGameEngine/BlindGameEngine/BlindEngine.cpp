@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "BlindEngine.h"
-#include <chrono>
+#include "Time.h"
+//#include <chrono>
 
 BlindEngine::BlindEngine(HWND winHandle)
 {
@@ -16,7 +17,10 @@ BlindEngine::BlindEngine(HWND winHandle)
 
 BlindEngine::~BlindEngine()
 {
+	delete m_time;
+
 	//Delete in order to call destructor, and to clean up the renderer memory.
+	//renderer need to clear all its own buffers....
 	delete m_RenderManager;
 }
 //This function WILL be removed later
@@ -88,13 +92,12 @@ void BlindEngine::DebugUpdateCamera()
 
 void BlindEngine::Run()
 {
-	std::chrono::time_point<std::chrono::system_clock> start;
-	start = std::chrono::system_clock::now();
+	//TODO add time class here.
+
 	//Clear screen
 	DebugUpdateCamera();
 
 	m_RenderManager->ClearPipelineViews(NULL);
 	m_RenderManager->Render(temp);
 	m_RenderManager->Present();
-	DeltaTime = (float)(std::chrono::system_clock::now() - start).count() / 1e7f;
 }

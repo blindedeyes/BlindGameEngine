@@ -63,7 +63,6 @@ public:
 	void Render(Mesh* m);
 	
 	void ClearPipelineViews(Pipeline* p);
-	void Render();
 	void Present();
 
 	void BuildVertexBuffer(Mesh * m);

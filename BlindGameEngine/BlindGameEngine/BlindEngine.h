@@ -1,4 +1,5 @@
 #pragma once
+class Time;
 class BlindEngine
 {
 	HWND m_WindowHandle;
@@ -10,7 +11,7 @@ class BlindEngine
 	POINT mLastPoint;
 	
 	Mesh* temp;
-
+	Time* m_time;
 	//float posX, posY;
 public:
 	BlindEngine(HWND winHandle);

@@ -10,8 +10,9 @@ class Time
 
 	std::chrono::time_point<std::chrono::system_clock> m_lastnow;
 	std::chrono::time_point<std::chrono::system_clock> m_applicationStart;
-public:
+	
 	Time();
+public:
 	~Time();
 
 	void Restart();
@@ -20,6 +21,6 @@ public:
 	float GetDeltaTime();
 	float GetUnscaledDeltaTime();
 	float SetTimeScale();
-
+	static Time* GetInstance();
 };
 

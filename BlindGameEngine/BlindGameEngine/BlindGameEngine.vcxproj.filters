@@ -28,6 +28,18 @@
     <Filter Include="Header Files\Renderer">
       <UniqueIdentifier>{e50badb7-72f3-4c2a-a7cd-fa19bf30a7d7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Time">
+      <UniqueIdentifier>{85df01f0-c2ad-4cb3-8474-57287032afc8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Time">
+      <UniqueIdentifier>{a6ac52fb-9d8b-42f7-acb9-114341b8b325}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\ObjectManager">
+      <UniqueIdentifier>{7a112451-b23b-44da-a8ef-6f8f319413ee}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\EngineDataTypes">
+      <UniqueIdentifier>{505baaf0-5eac-4b75-bbe1-7280688f4cd3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -60,6 +72,18 @@
     <ClInclude Include="Mesh.h">
       <Filter>Header Files\DataManager</Filter>
     </ClInclude>
+    <ClInclude Include="Time.h">
+      <Filter>Header Files\Time</Filter>
+    </ClInclude>
+    <ClInclude Include="Object.h">
+      <Filter>Header Files\EngineDataTypes</Filter>
+    </ClInclude>
+    <ClInclude Include="Component.h">
+      <Filter>Header Files\EngineDataTypes</Filter>
+    </ClInclude>
+    <ClInclude Include="Transform.h">
+      <Filter>Header Files\EngineDataTypes</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -76,6 +100,9 @@
     </ClCompile>
     <ClCompile Include="DataManager.cpp">
       <Filter>Source Files\DataManager</Filter>
+    </ClCompile>
+    <ClCompile Include="Time.cpp">
+      <Filter>Source Files\Time</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
