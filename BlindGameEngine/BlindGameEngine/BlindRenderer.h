@@ -69,6 +69,6 @@ public:
 	void BuildIndexBuffer(Mesh * m);
 
 	void RenderScene(ObjectManager* objMan);
-	void RenderMesh(Mesh* m);
+	void RenderMesh(const Mesh* m);
 };
 

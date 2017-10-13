@@ -1,5 +1,8 @@
+#include "stdafx.h"
+
 #include "Timer.h"
 #include "Time.h"
+
 Timer::Timer(float TargetTime)
 {
 	m_targetTime = TargetTime;

@@ -1,6 +1,8 @@
 #include "stdafx.h"
 #include "BlindRenderer.h"
 #include "ObjectManager.h"
+#include "Object.h"
+#include "MeshRenderer.h"
 
 void BlindRenderer::InitBackBuffer()
 {
@@ -284,11 +286,15 @@ void BlindRenderer::InitRenderer()
 void BlindRenderer::RenderScene(ObjectManager * objMan)
 {
 	//TODO Cache and render in steps/phases
-
-
+	auto objs = objMan->GetObjects();
+	for each (auto obj in objs)
+	{
+		if (obj->m_MeshRenderer)
+			RenderMesh(obj->m_MeshRenderer->GetMesh());
+	}
 }
 
-void BlindRenderer::RenderMesh(Mesh * m)
+void BlindRenderer::RenderMesh(const Mesh * m)
 {
 	//This needs to be optimized.
 

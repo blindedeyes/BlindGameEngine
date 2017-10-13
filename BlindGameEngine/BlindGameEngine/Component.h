@@ -17,10 +17,10 @@ public:
 
 	virtual void setEnable(bool e)
 	{
-		mEnabled = e;
+		m_Enabled = e;
 	}
 	virtual bool isEnabled()
 	{
-		return mEnabled;
+		return m_Enabled;
 	}
 };

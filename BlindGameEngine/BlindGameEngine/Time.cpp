@@ -33,12 +33,12 @@ float Time::GetDeltaTime()
 
 float Time::GetUnscaledDeltaTime()
 {
-	float m_unscaleDeltaTime;
+	return m_unscaleDeltaTime;
 }
 
 float Time::SetTimeScale()
 {
-	float m_timeScale;
+	return m_timeScale;
 }
 
 Time * Time::GetInstance()

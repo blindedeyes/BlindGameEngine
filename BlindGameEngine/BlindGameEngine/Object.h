@@ -13,7 +13,7 @@ class Object
 	ObjectManager* m_ObjManager;
 	//std::vector<Collider*> m_Colliders;
 public:
-	MeshRenderer* m_MeshRenderer;
+	MeshRenderer* m_MeshRenderer=0;
 	Object(bool isStatic)
 	{
 		m_Static = isStatic;
@@ -31,11 +31,12 @@ public:
 	virtual void CollisionUpdate();
 	virtual void FixedUpdate();
 
+	virtual void SetRenderer(MeshRenderer* rend)
+	{
+		m_MeshRenderer = rend;
+		//m_ObjManager->AddRenderable(rend);
+	}
 
-	//virtual void setStatic(bool s)
-	//{
-	//	m_Static = s;
-	//}
 	virtual void setEnabled(bool e)
 	{
 		m_Enabled = e;
@@ -55,7 +56,7 @@ public:
 		m_Components.push_back(c);
 	}
 	template <typename type>
-	virtual type* GetComponent()
+	type* GetComponent()
 	{
 		type* res = nullptr;
 		for (unsigned int i = 0; i < m_Components.size(); ++i)

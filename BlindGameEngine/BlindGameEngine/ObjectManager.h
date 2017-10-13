@@ -16,10 +16,15 @@ public:
 
 	void RemoveObject(Object* o);
 	void AddObject(Object* o);
-
+	//need to make this kinda seperate...
 	void Update();
 	void FixedUpdate();
 	void OnRender();
 	void CollisionUpdate();
+
+	std::list<Object*>& GetObjects()
+	{
+		return m_allObjects;
+	};
 };
 

@@ -113,7 +113,7 @@ void BlindEngine::Run()
 		m_ObjectManager->FixedUpdate();
 		m_FixedTimer->IncrementalReset();
 	}
-
-	m_RenderManager->RenderMesh(temp);
+	m_RenderManager->RenderScene(m_ObjectManager);
+	//m_RenderManager->RenderMesh(temp);
 	m_RenderManager->Present();
 }

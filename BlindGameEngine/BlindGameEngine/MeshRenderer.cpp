@@ -13,7 +13,7 @@ MeshRenderer::~MeshRenderer()
 
 void MeshRenderer::Start()
 {
-	m_GameObject->m_MeshRenderer = this;
+	m_GameObject->SetRenderer(this);
 }
 
 const Mesh * const MeshRenderer::GetMesh()
