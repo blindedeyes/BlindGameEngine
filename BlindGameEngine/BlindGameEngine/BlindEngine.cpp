@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "BlindEngine.h"
 #include "Time.h"
-//#include <chrono>
+#include "ObjectManager.h"
 
 BlindEngine::BlindEngine(HWND winHandle)
 {
@@ -13,6 +13,8 @@ BlindEngine::BlindEngine(HWND winHandle)
 	m_RenderManager->BuildVertexBuffer(temp);
 	m_RenderManager->BuildIndexBuffer(temp);
 	GetCursorPos(&mLastPoint);
+	m_time = Time::GetInstance();
+	m_ObjectManager = new ObjectManager();
 }
 
 BlindEngine::~BlindEngine()
@@ -23,6 +25,7 @@ BlindEngine::~BlindEngine()
 	//renderer need to clear all its own buffers....
 	delete m_RenderManager;
 }
+
 //This function WILL be removed later
 // TODO : remove later, with script based movement.
 void BlindEngine::DebugUpdateCamera()
@@ -93,11 +96,24 @@ void BlindEngine::DebugUpdateCamera()
 void BlindEngine::Run()
 {
 	//TODO add time class here.
-
+	m_time->Step();
 	//Clear screen
 	DebugUpdateCamera();
 
+	
 	m_RenderManager->ClearPipelineViews(NULL);
-	m_RenderManager->Render(temp);
+	m_ObjectManager->Update();
+
+	//Fixed update happens every 1/60th of a second, 
+	//and happens multiple times per frame if deltaTime is longer
+	//uses scaled time
+	m_FixedTimer->Step();
+	while (m_FixedTimer->isTimerUp())
+	{
+		m_ObjectManager->FixedUpdate();
+		m_FixedTimer->IncrementalReset();
+	}
+
+	m_RenderManager->RenderMesh(temp);
 	m_RenderManager->Present();
 }

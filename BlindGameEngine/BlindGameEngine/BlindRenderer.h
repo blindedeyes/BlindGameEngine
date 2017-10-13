@@ -4,6 +4,7 @@
 #include "TrivialVS.h"
 #include "TrivialPS.h"
 
+class ObjectManager;
 
 //Costant Buffer
 struct WorldViewProj
@@ -60,7 +61,6 @@ public:
 	void SetCamera(DirectX::XMFLOAT4X4);
 	//Setup the rendering Device, Swap chain, and context
 	void InitRenderer();
-	void Render(Mesh* m);
 	
 	void ClearPipelineViews(Pipeline* p);
 	void Present();
@@ -68,5 +68,7 @@ public:
 	void BuildVertexBuffer(Mesh * m);
 	void BuildIndexBuffer(Mesh * m);
 
+	void RenderScene(ObjectManager* objMan);
+	void RenderMesh(Mesh* m);
 };
 

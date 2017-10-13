@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "BlindRenderer.h"
-
+#include "ObjectManager.h"
 
 void BlindRenderer::InitBackBuffer()
 {
@@ -281,9 +281,16 @@ void BlindRenderer::InitRenderer()
 
 }
 
-void BlindRenderer::Render(Mesh * m)
+void BlindRenderer::RenderScene(ObjectManager * objMan)
 {
+	//TODO Cache and render in steps/phases
 
+
+}
+
+void BlindRenderer::RenderMesh(Mesh * m)
+{
+	//This needs to be optimized.
 
 	//DirectX::XMStoreFloat4x4(&m_WVPData.view, DirectX::XMMatrixTranspose(DirectX::XMMatrixInverse(nullptr, DirectX::XMLoadFloat4x4(&m_Camera))));
 	m_Context->UpdateSubresource(m_WVPConstantBuffer, 0, NULL, &m_WVPData, 0, 0);

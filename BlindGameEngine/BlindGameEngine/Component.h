@@ -4,14 +4,16 @@ class Object;
 
 class Component
 {
-	bool mEnabled = true;
+	bool m_Enabled = true;
 public:
-	Object* mGameObject;
+	Object* m_GameObject;
 
+	Component() {};
+	~Component() {};
 	virtual void Start()=0;
 	virtual void Destroy()=0;
-	virtual void Update(float deltaTime)=0;
-	virtual void FixedUpdate(float deltaTime)=0;
+	virtual void Update()=0;
+	virtual void FixedUpdate()=0;
 
 	virtual void setEnable(bool e)
 	{

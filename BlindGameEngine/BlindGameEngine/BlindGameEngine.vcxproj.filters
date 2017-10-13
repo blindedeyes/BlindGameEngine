@@ -34,11 +34,20 @@
     <Filter Include="Source Files\Time">
       <UniqueIdentifier>{a6ac52fb-9d8b-42f7-acb9-114341b8b325}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\ObjectManager">
-      <UniqueIdentifier>{7a112451-b23b-44da-a8ef-6f8f319413ee}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\EngineDataTypes">
       <UniqueIdentifier>{505baaf0-5eac-4b75-bbe1-7280688f4cd3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\ObjectManager">
+      <UniqueIdentifier>{e63e98f6-8f61-4556-97e5-7e7b5a48d3db}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\ObjectManager">
+      <UniqueIdentifier>{a4481015-3993-440a-9a65-6f5528dbf1b4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Renderer\Components">
+      <UniqueIdentifier>{25b27796-52bc-4911-aea2-bf0028ca25eb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Renderer\Component">
+      <UniqueIdentifier>{5d437138-9bef-44a4-a195-d9a71a75b55e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -84,6 +93,15 @@
     <ClInclude Include="Transform.h">
       <Filter>Header Files\EngineDataTypes</Filter>
     </ClInclude>
+    <ClInclude Include="ObjectManager.h">
+      <Filter>Header Files\ObjectManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Timer.h">
+      <Filter>Header Files\Time</Filter>
+    </ClInclude>
+    <ClInclude Include="MeshRenderer.h">
+      <Filter>Header Files\Renderer\Component</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -103,6 +121,18 @@
     </ClCompile>
     <ClCompile Include="Time.cpp">
       <Filter>Source Files\Time</Filter>
+    </ClCompile>
+    <ClCompile Include="ObjectManager.cpp">
+      <Filter>Source Files\ObjectManager</Filter>
+    </ClCompile>
+    <ClCompile Include="Timer.cpp">
+      <Filter>Source Files\Time</Filter>
+    </ClCompile>
+    <ClCompile Include="Object.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MeshRenderer.cpp">
+      <Filter>Source Files\Renderer\Components</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

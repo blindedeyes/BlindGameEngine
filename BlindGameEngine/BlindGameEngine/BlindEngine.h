@@ -1,5 +1,8 @@
 #pragma once
+#include "Timer.h"
+
 class Time;
+class ObjectManager;
 class BlindEngine
 {
 	HWND m_WindowHandle;
@@ -12,6 +15,8 @@ class BlindEngine
 	
 	Mesh* temp;
 	Time* m_time;
+	Timer* m_FixedTimer;
+	ObjectManager* m_ObjectManager;
 	//float posX, posY;
 public:
 	BlindEngine(HWND winHandle);
