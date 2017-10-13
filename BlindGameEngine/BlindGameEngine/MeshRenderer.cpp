@@ -4,6 +4,7 @@
 
 MeshRenderer::MeshRenderer(Mesh* m)
 {
+	m_Mesh = m;
 }
 
 

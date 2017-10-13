@@ -9,6 +9,8 @@ ObjectManager::ObjectManager()
 
 ObjectManager::~ObjectManager()
 {
+	for each (auto o in m_allObjects)
+		delete o;
 }
 
 void ObjectManager::RemoveObject(Object * o)
@@ -23,6 +25,7 @@ void ObjectManager::AddObject(Object * o)
 		m_static.push_back(o);
 
 	m_allObjects.push_back(o);
+	o->Start();
 }
 
 void ObjectManager::Update()

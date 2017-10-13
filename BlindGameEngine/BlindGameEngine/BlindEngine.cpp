@@ -2,7 +2,8 @@
 #include "BlindEngine.h"
 #include "Time.h"
 #include "ObjectManager.h"
-
+#include "Object.h"
+#include "MeshRenderer.h"
 BlindEngine::BlindEngine(HWND winHandle)
 {
 	m_WindowHandle = winHandle;
@@ -14,13 +15,20 @@ BlindEngine::BlindEngine(HWND winHandle)
 	m_RenderManager->BuildIndexBuffer(temp);
 	GetCursorPos(&mLastPoint);
 	m_time = Time::GetInstance();
+	m_FixedTimer = new Timer(1.0f/60.0f);
 	m_ObjectManager = new ObjectManager();
+
+	//need a test object
+	Object * obj = new Object(false);
+	MeshRenderer * mrend = new MeshRenderer(temp);
+	obj->AddComponent(mrend);
+	m_ObjectManager->AddObject(obj);
 }
 
 BlindEngine::~BlindEngine()
 {
 	delete m_time;
-
+	delete m_ObjectManager;
 	//Delete in order to call destructor, and to clean up the renderer memory.
 	//renderer need to clear all its own buffers....
 	delete m_RenderManager;
@@ -113,6 +121,7 @@ void BlindEngine::Run()
 		m_ObjectManager->FixedUpdate();
 		m_FixedTimer->IncrementalReset();
 	}
+	
 	m_RenderManager->RenderScene(m_ObjectManager);
 	//m_RenderManager->RenderMesh(temp);
 	m_RenderManager->Present();

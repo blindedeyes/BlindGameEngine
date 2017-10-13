@@ -11,6 +11,10 @@ public:
 	~MeshRenderer();
 
 	void Start() override;
+	void Destroy() {}
+	void Update() {}
+	void FixedUpdate() {}
+
 	const Mesh * const GetMesh();
 };
 

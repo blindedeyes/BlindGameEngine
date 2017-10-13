@@ -286,6 +286,8 @@ void BlindRenderer::InitRenderer()
 void BlindRenderer::RenderScene(ObjectManager * objMan)
 {
 	//TODO Cache and render in steps/phases
+	//TODO A better way than looping through all.
+		//Possible solution, a friend class of MeshRenderer that keeps track of renderables
 	auto objs = objMan->GetObjects();
 	for each (auto obj in objs)
 	{

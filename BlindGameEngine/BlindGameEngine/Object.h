@@ -1,7 +1,7 @@
 #pragma once
 #include <vector>
+#include "Component.h"
 
-class Component;
 class ObjectManager;
 class MeshRenderer;
 //class Collider;
@@ -54,6 +54,7 @@ public:
 	virtual void AddComponent(Component* c)
 	{
 		m_Components.push_back(c);
+		c->m_GameObject = this;
 	}
 	template <typename type>
 	type* GetComponent()
