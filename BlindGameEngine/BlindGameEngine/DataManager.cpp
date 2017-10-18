@@ -113,7 +113,7 @@ DataManager::~DataManager()
 {
 }
 
-Mesh * DataManager::LoadMesh(const char * path)
+int DataManager::LoadMesh(const char * path)
 {
 	Mesh * nMesh = nullptr;
 	//Creating the manager for FBX
@@ -142,10 +142,17 @@ Mesh * DataManager::LoadMesh(const char * path)
 			if (nMesh)
 			{
 				//Do stuff here.
-				return nMesh;
+				meshes.push_back(nMesh);
+
+				return (meshes.size()-1);
 			}
 		}
 	}
 	manager->Destroy();
-	return nMesh;
+	return -1;
+}
+
+Mesh * DataManager::GetMesh(int index)
+{
+	return meshes[index];
 }

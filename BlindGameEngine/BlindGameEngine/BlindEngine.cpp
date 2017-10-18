@@ -10,7 +10,7 @@ BlindEngine::BlindEngine(HWND winHandle)
 	m_RenderManager = new BlindRenderer(m_WindowHandle);
 	m_RenderManager->InitRenderer();
 	DataManager dataman;
-	temp = dataman.LoadMesh("Cube.fbx");
+	temp = dataman.GetMesh(dataman.LoadMesh("Cube.fbx"));
 	m_RenderManager->BuildVertexBuffer(temp);
 	m_RenderManager->BuildIndexBuffer(temp);
 	GetCursorPos(&mLastPoint);
