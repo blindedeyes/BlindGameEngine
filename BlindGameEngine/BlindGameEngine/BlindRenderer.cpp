@@ -126,6 +126,7 @@ void BlindRenderer::BuildVertexBuffer(Mesh * m)
 	D3D11_SUBRESOURCE_DATA data;
 	data.pSysMem = m->Verts.data();
 	m_Device->CreateBuffer(&desc, &data, &m->m_VertBuffer);
+	buffers.push_back(m->m_VertBuffer);
 }
 
 void BlindRenderer::BuildIndexBuffer(Mesh * m)
@@ -135,6 +136,7 @@ void BlindRenderer::BuildIndexBuffer(Mesh * m)
 	D3D11_SUBRESOURCE_DATA data;
 	data.pSysMem = m->Indices.data();
 	m_Device->CreateBuffer(&desc, &data, &m->m_IndxBuffer);
+	buffers.push_back(m->m_IndxBuffer);
 }
 
 void BlindRenderer::SetupInputLayout()
@@ -160,6 +162,8 @@ BlindRenderer::~BlindRenderer()
 	//TODO Clean up all Direct X memory.
 	//Clear the state of the context, so it isn't referencing the buffers/shaders/whatever
 	m_Context->ClearState();
+	for each (auto bff in buffers)
+		bff->Release();
 	//Do this in the opposite order of creation preferably, could cause issues if done otherwise.
 	m_DefaultPipeline.m_RasterizerState->Release();
 	m_DefaultPipeline.m_InputLayout->Release();

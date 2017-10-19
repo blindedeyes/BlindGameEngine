@@ -9,13 +9,17 @@ BlindEngine::BlindEngine(HWND winHandle)
 	m_WindowHandle = winHandle;
 	m_RenderManager = new BlindRenderer(m_WindowHandle);
 	m_RenderManager->InitRenderer();
-	DataManager dataman;
-	temp = dataman.GetMesh(dataman.LoadMesh("Cube.fbx"));
-	m_RenderManager->BuildVertexBuffer(temp);
-	m_RenderManager->BuildIndexBuffer(temp);
+	DataManager* dataman = DataManager::getInstance();
+	//temp = dataman.GetMesh(dataman.LoadMesh("Cube.fbx"));
+	if (dataman->LoadMesh("Cube.fbx", "CUBE"))
+	{
+		temp = dataman->GetMesh("CUBE");
+		m_RenderManager->BuildVertexBuffer(temp);
+		m_RenderManager->BuildIndexBuffer(temp);
+	}
 	GetCursorPos(&mLastPoint);
 	m_time = Time::GetInstance();
-	m_FixedTimer = new Timer(1.0f/60.0f);
+	m_FixedTimer = new Timer(1.0f / 60.0f);
 	m_ObjectManager = new ObjectManager();
 
 	//need a test object
@@ -28,7 +32,10 @@ BlindEngine::BlindEngine(HWND winHandle)
 BlindEngine::~BlindEngine()
 {
 	delete m_time;
+	//nuke scene.
 	delete m_ObjectManager;
+	//nuke dis shiet before renderer, as buffers here need to be released.
+	delete DataManager::getInstance();
 	//Delete in order to call destructor, and to clean up the renderer memory.
 	//renderer need to clear all its own buffers....
 	delete m_RenderManager;
@@ -44,7 +51,7 @@ void BlindEngine::DebugUpdateCamera()
 	//Perform math.
 	if (GetAsyncKeyState('W'))
 	{
-		matCam =  DirectX::XMMatrixTranslation(0, 0, 1 * DeltaTime)* matCam;
+		matCam = DirectX::XMMatrixTranslation(0, 0, 1 * DeltaTime)* matCam;
 	}
 	if (GetAsyncKeyState('S'))
 	{
@@ -64,7 +71,7 @@ void BlindEngine::DebugUpdateCamera()
 	}
 	if (GetAsyncKeyState(VK_SHIFT))
 	{
-		matCam = DirectX::XMMatrixTranslation(0,-1 * DeltaTime, 0)* matCam;
+		matCam = DirectX::XMMatrixTranslation(0, -1 * DeltaTime, 0)* matCam;
 	}
 	DirectX::XMStoreFloat4x4(&cam, matCam);
 
@@ -108,7 +115,7 @@ void BlindEngine::Run()
 	//Clear screen
 	DebugUpdateCamera();
 
-	
+
 	m_RenderManager->ClearPipelineViews(NULL);
 	m_ObjectManager->Update();
 
@@ -121,7 +128,7 @@ void BlindEngine::Run()
 		m_ObjectManager->FixedUpdate();
 		m_FixedTimer->IncrementalReset();
 	}
-	
+
 	m_RenderManager->RenderScene(m_ObjectManager);
 	//m_RenderManager->RenderMesh(temp);
 	m_RenderManager->Present();

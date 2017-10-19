@@ -111,9 +111,11 @@ DataManager::DataManager()
 
 DataManager::~DataManager()
 {
+	
 }
 
-int DataManager::LoadMesh(const char * path)
+//int DataManager::LoadMesh(const char * path)
+bool DataManager::LoadMesh(const char * path, const char* name)
 {
 	Mesh * nMesh = nullptr;
 	//Creating the manager for FBX
@@ -142,17 +144,30 @@ int DataManager::LoadMesh(const char * path)
 			if (nMesh)
 			{
 				//Do stuff here.
-				meshes.push_back(nMesh);
+				dataobject obj;
+				obj.type = datatype::Mesh;
+				obj.data = (void*)nMesh;
+				datamap[std::string("mesh:").append(name)] = obj;
+				//meshes.push_back(nMesh);
 
-				return (meshes.size()-1);
+				//return (meshes.size()-1);
 			}
 		}
 	}
 	manager->Destroy();
-	return -1;
+	//should resolve as true or false :D
+	return (nMesh);
 }
 
-Mesh * DataManager::GetMesh(int index)
+Mesh * DataManager::GetMesh(const char* name)
 {
-	return meshes[index];
+	//mesh doesn't exist
+	if (datamap.find(std::string("mesh:").append(name)) == datamap.end())
+		return nullptr;
+	dataobject obj = datamap[std::string("mesh:").append(name)];
+	//not a mesh
+	if (obj.type == datatype::Mesh)
+		return (Mesh*)obj.data;
+	else
+		return nullptr;
 }

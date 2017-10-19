@@ -38,7 +38,7 @@ class BlindRenderer
 	DirectX::XMFLOAT4X4 m_ViewMatrix;
 	DirectX::XMFLOAT4X4 m_ProjMatrix;
 
-	
+	std::vector<ID3D11Buffer*> buffers;
 
 	WorldViewProj m_WVPData;
 	ID3D11Buffer * m_WVPConstantBuffer;

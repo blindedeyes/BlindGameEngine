@@ -48,6 +48,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	while (running)
 	{
 		//need to add a timer to messages
+		//should move this into the engine, so we can use timer class.
 		while (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE))//GetMessage(&msg, nullptr, 0, 0))
 		{
 			if (!TranslateAccelerator(msg.hwnd, hAccelTable, &msg))
@@ -59,6 +60,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 			if (msg.message == WM_QUIT || msg.message == WM_CLOSE)
 			{
 				running = false;
+				break;
 			}
 		}
 		engine.Run();

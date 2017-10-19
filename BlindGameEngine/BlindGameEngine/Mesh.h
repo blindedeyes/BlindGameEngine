@@ -34,6 +34,10 @@ struct Mesh
 {
 	std::vector<Vertex> Verts;
 	std::vector<uint32_t> Indices;
+	
+	//these are just references. The real pointers are cleaned up in renderer
+	//for speed purposes
+
 	ID3D11Buffer * m_VertBuffer = NULL;
 	ID3D11Buffer * m_IndxBuffer = NULL;
 };
