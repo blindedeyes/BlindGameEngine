@@ -23,5 +23,5 @@ public:
 	~BlindEngine();
 
 	void DebugUpdateCamera();
-	void Run();
+	int Run();
 };

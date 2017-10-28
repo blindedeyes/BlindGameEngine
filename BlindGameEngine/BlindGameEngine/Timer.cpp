@@ -18,6 +18,22 @@ void Timer::Step()
 	m_elpseTime += m_time->GetDeltaTime();
 }
 
+void Timer::UnscaledStep()
+{
+	m_elpseTime += m_time->GetUnscaledDeltaTime();
+
+}
+
+void Timer::SubStep()
+{
+	m_elpseTime = m_time->GetTimeSinceLastNow();
+}
+
+void Timer::UnscaledSubStep()
+{
+	m_elpseTime = m_time->GetUnscaledTimeSinceLastNow();
+}
+
 
 
 void Timer::Reset()

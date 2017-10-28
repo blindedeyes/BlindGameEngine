@@ -13,10 +13,20 @@ public:
 	Timer(float TargetTime);
 	~Timer();
 	//Adds delta time to it
+	//Use: time in steps of frames
 	void Step();
+	//Adds Unscaled delta time
+	//Use: time in steps of frames
+	void UnscaledStep();
+	//Sets elpsTime to delta since start of frame.
+	//Use: during frame time steps
+	void SubStep();
+	//Sets elpsTime to delta since start of frame.
+	//Use: during frame time steps
+	void UnscaledSubStep();
 	//resets elps time to 0
 	void Reset();
-	//sets elps time to elps - target, so it can be done in a loop, or the like
+	//sets elps time to (elps - target), so it can be done in a loop, or the like
 	void IncrementalReset();
 	//sets target time?
 	void SetTargetTime(float TargetTime);

@@ -20,6 +20,8 @@ public:
 	
 	float GetDeltaTime();
 	float GetUnscaledDeltaTime();
+	float GetTimeSinceLastNow();
+	float GetUnscaledTimeSinceLastNow();
 	float SetTimeScale();
 	static Time* GetInstance();
 };

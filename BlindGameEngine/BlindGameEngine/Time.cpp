@@ -36,6 +36,18 @@ float Time::GetUnscaledDeltaTime()
 	return m_unscaleDeltaTime;
 }
 
+float Time::GetTimeSinceLastNow()
+{
+	float unscaleDeltaTime = ((float)((std::chrono::system_clock::now() - m_lastnow).count()) / 1e7f);
+	//m_lastnow = std::chrono::system_clock::now();
+	return (m_unscaleDeltaTime*m_timeScale);
+}
+
+float Time::GetUnscaledTimeSinceLastNow()
+{
+	return ((float)((std::chrono::system_clock::now() - m_lastnow).count()) / 1e7f);
+}
+
 float Time::SetTimeScale()
 {
 	return m_timeScale;

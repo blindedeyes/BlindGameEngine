@@ -108,28 +108,53 @@ void BlindEngine::DebugUpdateCamera()
 	m_RenderManager->SetCamera(cam);
 }
 
-void BlindEngine::Run()
+int BlindEngine::Run()
 {
-	//TODO add time class here.
-	m_time->Step();
-	//Clear screen
-	DebugUpdateCamera();
-
-
-	m_RenderManager->ClearPipelineViews(NULL);
-	m_ObjectManager->Update();
-
-	//Fixed update happens every 1/60th of a second, 
-	//and happens multiple times per frame if deltaTime is longer
-	//uses scaled time
-	m_FixedTimer->Step();
-	while (m_FixedTimer->isTimerUp())
+	MSG msg;
+	bool running = true;
+	//timer is 60fps AT MAX, if there are no messages, there is no limit..
+	Timer * winMsgTimer = new Timer(1.0f/120.0f);
+	while (running)
 	{
-		m_ObjectManager->FixedUpdate();
-		m_FixedTimer->IncrementalReset();
-	}
+		//need to add a timer to messages
+		//should move this into the engine, so we can use timer class.
+		winMsgTimer->Reset();
+		while (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE) && !winMsgTimer->isTimerUp())//GetMessage(&msg, nullptr, 0, 0))
+		{
+			winMsgTimer->UnscaledSubStep();
+			TranslateMessage(&msg);
+			DispatchMessage(&msg);
 
-	m_RenderManager->RenderScene(m_ObjectManager);
-	//m_RenderManager->RenderMesh(temp);
-	m_RenderManager->Present();
+			if (msg.message == WM_QUIT || msg.message == WM_CLOSE)
+			{
+				running = false;
+				break;
+			}
+		}
+
+		//TODO add time class here.
+		m_time->Step();
+		//Clear screen
+		DebugUpdateCamera();
+
+
+		m_RenderManager->ClearPipelineViews(NULL);
+		m_ObjectManager->Update();
+
+		//Fixed update happens every 1/60th of a second, 
+		//and happens multiple times per frame if deltaTime is longer
+		//uses scaled time
+		m_FixedTimer->Step();
+		while (m_FixedTimer->isTimerUp())
+		{
+			m_ObjectManager->FixedUpdate();
+			m_FixedTimer->IncrementalReset();
+		}
+
+		m_RenderManager->RenderScene(m_ObjectManager);
+		//m_RenderManager->RenderMesh(temp);
+		m_RenderManager->Present();
+	}
+	return msg.wParam;
+
 }
