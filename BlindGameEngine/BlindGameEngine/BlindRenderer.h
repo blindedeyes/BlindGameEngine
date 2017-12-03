@@ -50,7 +50,6 @@ class BlindRenderer
 	void InitShaders();
 	void InitViewProjMatrix();
 
-
 	void SetupInputLayout();
 
 public:

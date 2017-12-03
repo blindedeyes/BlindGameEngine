@@ -154,9 +154,11 @@
   <ItemGroup>
     <ClInclude Include="BlindEngine.h" />
     <ClInclude Include="BlindGameEngine.h" />
+    <ClInclude Include="BlindGui.h" />
     <ClInclude Include="BlindRenderer.h" />
     <ClInclude Include="Component.h" />
     <ClInclude Include="DataManager.h" />
+    <ClInclude Include="InputManager.h" />
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="MeshRenderer.h" />
     <ClInclude Include="Object.h" />
@@ -172,8 +174,10 @@
   <ItemGroup>
     <ClCompile Include="BlindEngine.cpp" />
     <ClCompile Include="BlindGameEngine.cpp" />
+    <ClCompile Include="BlindGui.cpp" />
     <ClCompile Include="BlindRenderer.cpp" />
     <ClCompile Include="DataManager.cpp" />
+    <ClCompile Include="InputManager.cpp" />
     <ClCompile Include="MeshRenderer.cpp" />
     <ClCompile Include="Object.cpp" />
     <ClCompile Include="ObjectManager.cpp" />
@@ -214,6 +218,9 @@
       <VariableName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(Filename)</VariableName>
       <HeaderFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(ProjectDir)%(Filename).h</HeaderFileOutput>
     </FxCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\README.md" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
