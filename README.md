@@ -29,9 +29,7 @@ This project is a game engine written in Direct X 11, using windows forms.
 - Loading Textures
 - Lights
 - Normal Maps
-- Scripting a Model
+- Scripting a Model :heavy_check_mark: 
 - Animating a Model
 - Game designing
 
-# Twitch Stream
-https://Twitch.tv/blindedeye
